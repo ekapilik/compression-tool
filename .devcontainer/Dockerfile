@@ -26,7 +26,9 @@ RUN apt-get install -qqy --no-install-recommends locales && \
 RUN apt-get install -y \
     bash \
     git \
-    wget
+    wget \
+    cmake \
+    ninja-build
 
 # User
 USER $USERNAME
