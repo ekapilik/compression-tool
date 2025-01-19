@@ -48,5 +48,24 @@
         "GTEST_COLOR": "yes"
       }
     }
+  ],
+  "workflowPresets": [
+    {
+      "name": "test",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "debug"
+        },
+        {
+          "type": "build",
+          "name": "debug"
+        },
+        {
+          "type": "test",
+          "name": "run-tests"
+        }
+      ]
+    }
   ]
 }

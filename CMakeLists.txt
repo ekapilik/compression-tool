@@ -9,11 +9,12 @@ set(executable_srcs
     src/main.cpp
 )
 
-message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
+enable_testing()
+
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-    message(STATUS "Adding subdirectory test")
     add_subdirectory(test)
 endif()
 
 add_executable(${PROJECT_NAME} ${executable_srcs})
+
