@@ -4,13 +4,15 @@ clean:
 configure:
 	cmake --preset debug
 
-build:
+build: configure
 	cmake --build --preset debug
 
-test:
+test: FORCE
 	cmake --workflow --preset test
 
-test_fresh:
+test_fresh: FORCE
 	cmake --workflow --preset test --fresh
 
-.DEFAULT_GOAL := test_fresh
+FORCE:
+
+.DEFAULT_GOAL := test

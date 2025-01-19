@@ -1,3 +1,4 @@
+# Add GoogleTest
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -6,20 +7,25 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
+# Add the test executable
 add_executable(
   ${PROJECT_NAME}_test
   test_main.cpp
+  test_core_functionality.cpp
   )
 target_link_libraries(
   ${PROJECT_NAME}_test
+  PUBLIC
   GTest::gtest_main
+  PRIVATE
+  ${PROJECT_NAME}_lib
   )
 
-enable_testing()
+file(COPY ${CMAKE_SOURCE_DIR}/test/data/test.txt DESTINATION ${CMAKE_BINARY_DIR}/test/data)
 
+# Add the tests
+enable_testing()
 add_test(
   NAME ${PROJECT_NAME}_test
   COMMAND ${PROJECT_NAME}_test
   )
-
-#gtest_discover_tests(${PROJECT_NAME}_test)

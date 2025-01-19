@@ -5,6 +5,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wpedantic")
 
+add_subdirectory(src/${PROJECT_NAME})
+
 set(executable_srcs
     src/main.cpp
 )
