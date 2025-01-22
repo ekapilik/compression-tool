@@ -12,6 +12,7 @@ add_executable(
   ${PROJECT_NAME}_test
   test_main.cpp
   test_core_functionality.cpp
+  test_huffman.cpp
   )
 target_link_libraries(
   ${PROJECT_NAME}_test

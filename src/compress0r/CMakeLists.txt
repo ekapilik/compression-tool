@@ -1,6 +1,9 @@
 set(lib_srcs
+  core.hpp
   frequency.hpp
   frequency.cpp
+  huffman.hpp
+  huffman.cpp
   )
 
 add_library(${PROJECT_NAME}_lib
