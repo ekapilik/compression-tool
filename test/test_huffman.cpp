@@ -1,7 +1,6 @@
-#include <filesystem>
-#include <fstream>
 #include <gtest/gtest.h>
 
+#include "./load_data.hpp"
 #include <compress0r/core.hpp>
 
 using compress0r::HuffLeafNode, compress0r::HuffInternalNode,
@@ -9,21 +8,7 @@ using compress0r::HuffLeafNode, compress0r::HuffInternalNode,
 
 class HuffmanTreeFixture : public ::testing::Test {
 protected:
-  std::string test_filename = "./data/test.txt";
-  std::ifstream test_file{test_filename};
-  std::string test_file_contents;
-
-  HuffmanTreeFixture() {
-    if (!test_file.is_open()) {
-      throw std::runtime_error(
-          "[Frequency Test Fixture] Could not open file: " + test_filename +
-          ". Current path: " + std::filesystem::current_path().string());
-    } else {
-      test_file_contents =
-          std::string((std::istreambuf_iterator<char>(test_file)),
-                      std::istreambuf_iterator<char>());
-    }
-  }
+  HuffmanTreeFixture() {}
 };
 
 TEST_F(HuffmanTreeFixture, HuffLeafNode) {

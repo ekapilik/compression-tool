@@ -1,28 +1,13 @@
-#include <filesystem>
-#include <fstream>
 #include <gtest/gtest.h>
 
+#include "./load_data.hpp"
 #include <compress0r/core.hpp>
 
 using compress0r::frequency;
 
 class FrequencyFixture : public ::testing::Test {
 protected:
-  std::string test_filename = "./data/test.txt";
-  std::ifstream test_file{test_filename};
-  std::string test_file_contents;
-
-  FrequencyFixture() {
-    if (!test_file.is_open()) {
-      throw std::runtime_error(
-          "[Frequency Test Fixture] Could not open file: " + test_filename +
-          ". Current path: " + std::filesystem::current_path().string());
-    } else {
-      test_file_contents =
-          std::string((std::istreambuf_iterator<char>(test_file)),
-                      std::istreambuf_iterator<char>());
-    }
-  }
+  FrequencyFixture() {}
 };
 
 TEST_F(FrequencyFixture, QuickFrequencyCorrect) {
@@ -41,6 +26,7 @@ TEST_F(FrequencyFixture, QuickFrequencyTrueNegatives) {
 }
 
 TEST_F(FrequencyFixture, FrequencyFileCorrect) {
+  std::string test_file_contents = test::DataLoader::load_les_miserables();
   EXPECT_EQ(frequency(test_file_contents, 'X'), 333);
   EXPECT_EQ(frequency(test_file_contents, 't'), 223'000);
   EXPECT_EQ(frequency(test_file_contents, '\n'), 73'589);
@@ -48,6 +34,7 @@ TEST_F(FrequencyFixture, FrequencyFileCorrect) {
 }
 
 TEST_F(FrequencyFixture, FrequencyFileTrueNegatives) {
+  std::string test_file_contents = test::DataLoader::load_les_miserables();
   EXPECT_NE(frequency(test_file_contents, 'X'), 334);
   EXPECT_NE(frequency(test_file_contents, 't'), 223);
 }
