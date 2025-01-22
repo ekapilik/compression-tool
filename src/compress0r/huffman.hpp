@@ -91,7 +91,10 @@ public:
 
     char final_char = static_cast<char>(127);
     for (char c = 0; c < final_char; ++c) {
-      trees.push(HuffTree(c, frequency(text, c)));
+      auto freq = frequency(text, c);
+      if (freq > 0) {
+        trees.push(HuffTree(c, freq));
+      }
     }
 
     while (trees.size() > 1) {

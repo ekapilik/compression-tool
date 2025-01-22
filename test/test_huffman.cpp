@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-#include "./load_data.hpp"
 #include <compress0r/core.hpp>
 
 using compress0r::HuffLeafNode, compress0r::HuffInternalNode,
@@ -64,6 +63,38 @@ TEST_F(HuffmanTreeFixture, HuffTreeOperators) {
   EXPECT_GE(tree_b, tree_a);
 }
 
-TEST_F(HuffmanTreeFixture, BuildHuffTree) {
+TEST_F(HuffmanTreeFixture, BuildHuffTreeBasic) {
+  /* should produce the following tree:
+              6
+              /\
+             /  \
+         (c, 3)  3
+                 /\
+                /  \
+           (a, 1)  (b, 2)
+  */
+
   auto huff_tree = HuffTree::buildTree("abbccc");
+
+  auto root = reinterpret_cast<HuffInternalNode *>(huff_tree.root().get());
+  EXPECT_EQ(root->weight(), 6);
+  EXPECT_FALSE(root->isLeaf());
+
+  // Left subtree
+  auto left = reinterpret_cast<HuffLeafNode *>(root->left().get());
+  EXPECT_EQ(left->value(), 'c');
+  EXPECT_EQ(left->weight(), 3);
+
+  // Right subtree
+  auto right = reinterpret_cast<HuffInternalNode *>(root->right().get());
+
+  // Left subtree of right subtree
+  auto right_left = reinterpret_cast<HuffLeafNode *>(right->left().get());
+  EXPECT_EQ(right_left->value(), 'a');
+  EXPECT_EQ(right_left->weight(), 1);
+
+  // Right subtree of right subtree
+  auto right_right = reinterpret_cast<HuffLeafNode *>(right->right().get());
+  EXPECT_EQ(right_right->value(), 'b');
+  EXPECT_EQ(right_right->weight(), 2);
 }
