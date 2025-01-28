@@ -4,6 +4,29 @@
 
 namespace compress0r {
 
+std::string BitsToString(const Bits &bits) {
+  std::string result;
+  int count = 0;
+  for (const auto &bit : bits) {
+    result += bit ? "1" : "0";
+    if (++count % 4 == 0) {
+      result += " ";
+    }
+  }
+  return result;
+}
+
+std::string BitMapToString(const BitMap &bitmap) {
+  std::string result;
+  for (const auto &[key, value] : bitmap) {
+    result += key;
+    result += ": ";
+    result += BitsToString(value);
+    result += "\n";
+  }
+  return result;
+}
+
 BitMap Encoder::toBitmap(const HuffTree &tree) {
   BitMap result;
   std::stack<std::pair<std::shared_ptr<HuffBaseNode>, Bits>> stack;
@@ -24,31 +47,23 @@ BitMap Encoder::toBitmap(const HuffTree &tree) {
 
       auto right_bits = bits;
       right_bits.push_back(1);
-      stack.push({internal->right(), bits});
+      stack.push({internal->right(), right_bits});
     }
   }
   return result;
 }
 
-Bits Encoder::encode(const std::string &input) {
-  HuffTree tree = HuffTree::buildTree(input);
-  BitMap bitmap = toBitmap(tree);
-  return encode(bitmap, input);
-}
-
 Bits Encoder::encode(const BitMap &bitmap, const std::string &input) {
   Bits result;
-  for (const auto &c : input) {
-    Bits encoded = encode(bitmap, c);
+  for (const char &c : input) {
+    Bits encoded = Encoder::encode(bitmap, c);
     result.insert(result.end(), encoded.begin(), encoded.end());
   }
   return result;
 }
 
-Bits encode(const BitMap &bitmap, const char &input) {
-  Bits result;
-
-  return result;
+Bits Encoder::encode(const BitMap &bitmap, const char &input) {
+  return bitmap.at(input);
 }
 
 } // namespace compress0r

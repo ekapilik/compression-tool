@@ -1,5 +1,5 @@
 #pragma once
 
-#include "./encode.hpp"
+#include "./encoder.hpp"
 #include "./frequency.hpp"
 #include "./huffman.hpp"
