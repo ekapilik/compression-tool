@@ -12,14 +12,22 @@ using Bits = std::vector<bool>;
 using BitMap = std::map<char, Bits>;
 
 std::string BitMapToString(const BitMap &bitmap);
+BitMap toBitmap(const HuffTree &tree);
 
 class Encoder {
 public:
-  static BitMap toBitmap(const HuffTree &tree);
+  Encoder(const BitMap &bitmap);
 
-  static Bits encode(const BitMap &bitmap, const std::string &input);
+  Encoder(const HuffTree &tree);
 
-  static Bits encode(const BitMap &bitmap, const char &input);
+  Bits encode(const std::string &input);
+
+  Bits encode(const char &input);
+
+  BitMap bitmap() const { return bitmap_; }
+
+protected:
+  BitMap bitmap_;
 };
 
 } // namespace compress0r

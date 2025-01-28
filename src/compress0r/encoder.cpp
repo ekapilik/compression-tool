@@ -27,7 +27,11 @@ std::string BitMapToString(const BitMap &bitmap) {
   return result;
 }
 
-BitMap Encoder::toBitmap(const HuffTree &tree) {
+Encoder::Encoder(const HuffTree &tree) : bitmap_(toBitmap(tree)) {}
+
+Encoder::Encoder(const BitMap &bitmap) : bitmap_(bitmap) {}
+
+BitMap toBitmap(const HuffTree &tree) {
   BitMap result;
   std::stack<std::pair<std::shared_ptr<HuffBaseNode>, Bits>> stack;
 
@@ -53,17 +57,15 @@ BitMap Encoder::toBitmap(const HuffTree &tree) {
   return result;
 }
 
-Bits Encoder::encode(const BitMap &bitmap, const std::string &input) {
+Bits Encoder::encode(const std::string &input) {
   Bits result;
   for (const char &c : input) {
-    Bits encoded = Encoder::encode(bitmap, c);
+    Bits encoded = Encoder::encode(c);
     result.insert(result.end(), encoded.begin(), encoded.end());
   }
   return result;
 }
 
-Bits Encoder::encode(const BitMap &bitmap, const char &input) {
-  return bitmap.at(input);
-}
+Bits Encoder::encode(const char &input) { return bitmap_.at(input); }
 
 } // namespace compress0r
